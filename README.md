@@ -1,34 +1,49 @@
 # Ask Economy Agent
 
-This repo keeps tutorial assets, SQL setup scripts, and application code in separate, predictable locations so things do not get dumped into one folder.
+A CLI-based Snowflake Cortex Analyst client for asking natural-language questions about US economy metrics.
+
+The app:
+- Sends your question to the Cortex Analyst REST API
+- Uses your configured semantic view
+- Executes generated SQL in Snowflake
+- Prints the result in a looped CLI session until you exit
 
 ## Project layout
 
-- [`notebooks/`](./notebooks) — tutorial and exploration notebooks
-- [`sql/`](./sql) — SQL scripts
-  - [`sql/setup.sql`](./sql/setup.sql) — Snowflake setup script
-- [`src/`](./src) — all Python code (modules + entrypoint)
+- [`src/main.py`](./src/main.py) — interactive CLI agent loop
+- [`src/settings.py`](./src/settings.py) — `.env` loading + Snowflake/Cortex config
+- [`sql/setup.sql`](./sql/setup.sql) — Snowflake database/schema/warehouse setup
+- [`sql/economic_dashboard_metrics_dynamic_table.sql`](./sql/economic_dashboard_metrics_dynamic_table.sql) — dynamic table definition used by your semantic layer
 
-## Python code (from notebook, organized)
+## Prerequisites
 
-- Core transformation logic: [`src/dashboard.py`](./src/dashboard.py)
-- Snowflake config loader: [`src/settings.py`](./src/settings.py)
-- Runnable script: [`src/main.py`](./src/main.py)
+Before running the app, make sure these exist in Snowflake:
+- Database/schema/warehouse from [`sql/setup.sql`](./sql/setup.sql)
+- Dynamic table from [`sql/economic_dashboard_metrics_dynamic_table.sql`](./sql/economic_dashboard_metrics_dynamic_table.sql)
+- Semantic view referenced by `SNOWFLAKE_SEMANTIC_VIEW`
 
-## Secrets and environment setup
+## Environment setup
 
-1. Copy [`./.env.example`](./.env.example) to `./.env` (already created locally and gitignored).
-2. Fill in:
+1. Copy [`.env.example`](./.env.example) to `.env`.
+2. Fill required values:
    - `SNOWFLAKE_ACCOUNT`
    - `SNOWFLAKE_USER`
    - `SNOWFLAKE_PASSWORD`
-3. Optional overrides: `SNOWFLAKE_ROLE`, `SNOWFLAKE_WAREHOUSE`, `SNOWFLAKE_DATABASE`, `SNOWFLAKE_SCHEMA`
+   - `SNOWFLAKE_SEMANTIC_VIEW`
+3. Optional overrides:
+   - `SNOWFLAKE_ROLE`
+   - `SNOWFLAKE_WAREHOUSE`
+   - `SNOWFLAKE_DATABASE`
+   - `SNOWFLAKE_SCHEMA`
 
-The app loads `./.env` automatically via `python-dotenv`.
-The app loads `./.env` automatically at startup.
-
-Run:
+## Run
 
 ```bash
 python src/main.py
 ```
+
+## CLI usage
+
+- Prompt format: `You> ...`
+- Response format: `Agent> ...`
+- Exit commands: `exit`, `quit`, `q` (or Ctrl+C / Ctrl+D)
