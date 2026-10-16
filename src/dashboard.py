@@ -58,8 +58,8 @@ def build_dashboard_dataframe(session: Session) -> DataFrame:
     combined = cpi.union_all(unemployment).union_all(mortgage)
 
     return (
-        combined.pivot("METRIC", ["CPI", "UNEMPLOYMENT_RATE", "MORTGAGE_RATE_30Y"])
+        combined.pivot(
+            "METRIC", ["CPI", "UNEMPLOYMENT_RATE", "MORTGAGE_RATE_30Y"])
         .agg(F.max("VALUE"))
         .sort(F.col("DATE").desc())
     )
-

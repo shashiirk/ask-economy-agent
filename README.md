@@ -15,12 +15,17 @@ This repo keeps tutorial assets, SQL setup scripts, and application code in sepa
 - Snowflake config loader: [`src/settings.py`](./src/settings.py)
 - Runnable script: [`src/main.py`](./src/main.py)
 
-Set these environment variables before running:
+## Secrets and environment setup
 
-- `SNOWFLAKE_ACCOUNT`
-- `SNOWFLAKE_USER`
-- `SNOWFLAKE_PASSWORD`
-- Optional overrides: `SNOWFLAKE_ROLE`, `SNOWFLAKE_WAREHOUSE`, `SNOWFLAKE_DATABASE`, `SNOWFLAKE_SCHEMA`
+1. Copy [`./.env.example`](./.env.example) to `./.env` (already created locally and gitignored).
+2. Fill in:
+   - `SNOWFLAKE_ACCOUNT`
+   - `SNOWFLAKE_USER`
+   - `SNOWFLAKE_PASSWORD`
+3. Optional overrides: `SNOWFLAKE_ROLE`, `SNOWFLAKE_WAREHOUSE`, `SNOWFLAKE_DATABASE`, `SNOWFLAKE_SCHEMA`
+
+The app loads `./.env` automatically via `python-dotenv`.
+The app loads `./.env` automatically at startup.
 
 Run:
 
