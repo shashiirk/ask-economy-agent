@@ -21,16 +21,21 @@ Before running the app, make sure these exist in Snowflake:
 - Database/schema/warehouse from [`sql/setup.sql`](./sql/setup.sql)
 - Dynamic table from [`sql/economic_dashboard_metrics_dynamic_table.sql`](./sql/economic_dashboard_metrics_dynamic_table.sql)
 - Semantic view referenced by `SNOWFLAKE_SEMANTIC_VIEW`
+- The semantic view points to data that is queryable by your user/role
+- Your configured role has privileges to:
+  - use the configured warehouse/database/schema
+  - read objects used by the semantic view (including the dynamic table)
+  - call Cortex Analyst REST API for that semantic object
+- Network/auth setup allows Snowflake token-based REST calls from this Python client
 
 ## Environment setup
 
 1. Copy [`.env.example`](./.env.example) to `.env`.
-2. Fill required values:
+2. Fill all required values:
    - `SNOWFLAKE_ACCOUNT`
    - `SNOWFLAKE_USER`
    - `SNOWFLAKE_PASSWORD`
    - `SNOWFLAKE_SEMANTIC_VIEW`
-3. Optional overrides:
    - `SNOWFLAKE_ROLE`
    - `SNOWFLAKE_WAREHOUSE`
    - `SNOWFLAKE_DATABASE`
